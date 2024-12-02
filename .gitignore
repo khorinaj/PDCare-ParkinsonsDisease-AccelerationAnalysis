@@ -1,0 +1,47 @@
+# main folder
+# Ignore raw PD data 
+PDdata/*.mat
+PDdata/csvWristData/*.csv
+PDdata/csvWristData/*.csv
+PDdata/csvWristData/ActivityType/*.csv
+PDdata/csvWristData/ActivityIntensity/*.csv
+
+# HARmodel folder
+# Ignore virtual environments
+HARmodel/env/
+*.venv/
+
+# Ignore Python cache files
+HARmodel/__pycache__/
+*.pyc
+*.pyo
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore raw data in harth and har70plus
+HARmodel/har70plus/*.csv
+HARmodel/harth/*.csv
+
+# Ignore features
+HARmodel/features/processsed_features*
+
+
+# PDanalysis folder
+# Ignore Jupyter Notebook checkpoints
+PDanalysis/.ipynb_checkpoints/
+
+# Ignore clinical scales for privacy
+PDanalysis/clinicalScales
+
+# Ignore dataProcessed* file since this will be generated
+PDanalysis/dataProcessed_Body/*.mat
+PDanalysis/dataProcessed_Wrist/*.mat
+
+# ignopre docs in wct toolbox
+PDanalysis/\utils\wavelet-coherence-master\docs
+
+# Ignore MATLAB .asv
+*.asv
+ 
