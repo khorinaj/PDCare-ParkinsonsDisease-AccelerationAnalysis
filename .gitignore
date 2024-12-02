@@ -21,8 +21,8 @@ HARmodel/__pycache__/
 *.tmp
 
 # Ignore raw data in harth and har70plus
-HARmodel/har70plus/*.csv
-HARmodel/harth/*.csv
+HARmodel/Public Data/har70plus/*.csv
+HARmodel/Public Data/harth/*.csv
 
 # Ignore features
 HARmodel/features/processsed_features*
