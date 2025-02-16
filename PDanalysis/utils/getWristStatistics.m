@@ -1,4 +1,4 @@
-function fcorr=getWristStatistics(label24h,time24h,datause24h,removeOutlierFlag)
+function fcorr=getWristStatistics(label24h,time24h,datause24h,removeOutlierFlag,OutlierThreshold)
 DaytimeLabel=and(hour(time24h)>12,hour(time24h)<21);
 NighttimeLabel=~DaytimeLabel;
 
@@ -15,7 +15,7 @@ walkingdata=abs(datause24h(WalkingLabel)-1);
 walkingdataSET=staset(walkingdata,1,6);
 z_scores = zscore(walkingdata);
 % Identify outliers (z-score threshold of 3)
-outliers = abs(z_scores) > 15;
+outliers = abs(z_scores) > OutlierThreshold;
 walkingdata=walkingdata(~outliers);
 walkingdata=staset(walkingdata,1,6);
 
@@ -25,7 +25,7 @@ ActivitydataSET=staset(Activitydata,1,6);
 
 z_scores = zscore(Activitydata);
 % Identify outliers (z-score threshold of 3)
-outliers = abs(z_scores) > 15;
+outliers = abs(z_scores) > OutlierThreshold;
 Activitydata=Activitydata(~outliers);
 Activitydata=staset(Activitydata,1,6);
 
@@ -33,7 +33,7 @@ lightdata=abs(datause24h(lightActLabel)-1);
 lightdataSET=staset(lightdata,1,6);
 z_scores = zscore(lightdata);
 % Identify outliers (z-score threshold of 3)
-outliers = abs(z_scores) > 15;
+outliers = abs(z_scores) > OutlierThreshold;
 lightdata=lightdata(~outliers);
 lightdata=staset(lightdata,1,6);
 
@@ -41,26 +41,34 @@ MVdata=abs(datause24h(ModVarActLabel)-1);
 MVdataSET=staset(MVdata,1,6);
 z_scores = zscore(MVdata);
 % Identify outliers (z-score threshold of 3)
-outliers = abs(z_scores) > 15;
+outliers = abs(z_scores) > OutlierThreshold;
 MVdata=MVdata(~outliers);
 MVdata=staset(MVdata,1,6);
 
 daySedLabel=and(sedentaryLabel,DaytimeLabel);
 nightSedLabel=and(sedentaryLabel,NighttimeLabel);
 nightRestLabel=or(nightSedLabel,SleepLabel);
-if removeOutlierFlag
-    fcorr=[sum(SleepLabel)/length(label24h),sum(SleepLabel)/sum(nightRestLabel),sum(AllActivityLabel)/sum(nightRestLabel)...
-        sum(daySedLabel)/length(label24h),...
+
+fcorr=[sum(SleepLabel)/length(label24h),(sum(SleepLabel)+sum(nightRestLabel))/length(label24h),...
+       sum(AllActivityLabel)/sum(nightRestLabel), sum(daySedLabel)/length(label24h),...
         sum(and(WalkingLabel,DaytimeLabel))/length(label24h),sum(and(AllActivityLabel,DaytimeLabel))/length(label24h),...
         sum(and(lightActLabel,DaytimeLabel))/length(label24h),sum(and(ModVarActLabel,DaytimeLabel))/length(label24h),...
-      walkingdata,Activitydata,lightdata];
+       ];
+if removeOutlierFlag
+    % fcorr=[sum(SleepLabel)/length(label24h),(sum(SleepLabel)+sum(nightRestLabel))/length(label24h),sum(AllActivityLabel)/sum(nightRestLabel)...
+    %     sum(daySedLabel)/length(label24h),...
+    %     sum(and(WalkingLabel,DaytimeLabel))/length(label24h),sum(and(AllActivityLabel,DaytimeLabel))/length(label24h),...
+    %     sum(and(lightActLabel,DaytimeLabel))/length(label24h),sum(and(ModVarActLabel,DaytimeLabel))/length(label24h),...
+    %   walkingdata,Activitydata,lightdata];
+    fcorr=[fcorr,walkingdata,Activitydata,lightdata];
 else
 
-  fcorr=[sum(SleepLabel)/length(label24h),sum(SleepLabel)/sum(nightRestLabel),sum(AllActivityLabel)/sum(nightRestLabel)...
-        sum(daySedLabel)/length(label24h),...
-        sum(and(WalkingLabel,DaytimeLabel))/length(label24h),sum(and(AllActivityLabel,DaytimeLabel))/length(label24h),...
-        sum(and(lightActLabel,DaytimeLabel))/length(label24h),sum(and(ModVarActLabel,DaytimeLabel))/length(label24h),...
-       walkingdataSET,ActivitydataSET,lightdataSET];
-%  staset(walkingdata,1,1),staset(Activitydata,1,1)...
+  % fcorr=[sum(SleepLabel)/length(label24h),sum(SleepLabel)/sum(nightRestLabel),sum(AllActivityLabel)/sum(nightRestLabel)...
+  %       sum(daySedLabel)/length(label24h),...
+  %       sum(and(WalkingLabel,DaytimeLabel))/length(label24h),sum(and(AllActivityLabel,DaytimeLabel))/length(label24h),...
+  %       sum(and(lightActLabel,DaytimeLabel))/length(label24h),sum(and(ModVarActLabel,DaytimeLabel))/length(label24h),...
+  %      walkingdataSET,ActivitydataSET,lightdataSET];
+     fcorr=[fcorr,walkingdataSET,ActivitydataSET,lightdataSET];
+
 end
 

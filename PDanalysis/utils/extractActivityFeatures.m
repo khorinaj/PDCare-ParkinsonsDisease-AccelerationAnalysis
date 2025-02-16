@@ -70,7 +70,7 @@ for i = 1:numel(varargin)
     if ischar(varargin{i}) && strcmpi(varargin{i}, 'OutlierThreshold')
         % Look for 'method' in varargin and set the method variable
         if i < numel(varargin)
-            removeOutlierFlag = varargin{i + 1};
+            OutlierThreshold = varargin{i + 1};
             break
         end
 
@@ -221,17 +221,17 @@ for io=1:(length(ParID))
             if removeOutlierFlag
                 z_scores = zscore(WalkPeaks);
                 % Identify outliers
-                outliers = abs(z_scores) > OutlierThreshold;
+                outliers = abs(z_scores) > 15;
                 WalkPeaks=WalkPeaks(~outliers);
             end
             Walkingfeatures=[length(WalkPeaks),staset(WalkPeaks,1,6),staset(WalkGaps(WalkGaps<1.5),1,6)];
         end
 
         if dataPosition=="Body"
-            fcorr(ii,:)=[getBodyStatistics(label24h,time24h,datause24h,removeOutlierFlag),Walkingfeatures];
+            fcorr(ii,:)=[getBodyStatistics(label24h,time24h,datause24h,removeOutlierFlag,OutlierThreshold),Walkingfeatures];
 
         elseif dataPosition=="Wrist"
-            fcorr(ii,:)=[getWristStatistics(label24h,time24h,datause24h,removeOutlierFlag),Walkingfeatures];
+            fcorr(ii,:)=[getWristStatistics(label24h,time24h,datause24h,removeOutlierFlag,OutlierThreshold),Walkingfeatures];
 
         end
 

@@ -13,7 +13,7 @@ addpath("utils\")
 % *****************************************************************************************************
 IDs=["23","27","05","16","07","09","06","01"];
 dataPosition="Body"; % wrist-2, body-1
-
+%%
 fs_ori = 100; % original sampling rate
 fs_res = 50; % Target resampling frequency (Hz)
 
@@ -50,17 +50,20 @@ end
 IDstrings=IDs;
 Chunkslength="24h";
 WalkingLengthLim=10;
-
+OT=5;
 [T,fcorrALL]=...
-    extractActivityFeatures(IDstrings,dataPosition,Chunkslength,WalkingLengthLim);
+    extractActivityFeatures(IDstrings,dataPosition,Chunkslength,WalkingLengthLim,'OutlierThreshold',OT);
 
 %% Correlation Analysis
 methodsel="Spearman";
 methodsel="Kendall";
 T=T(table2array(T(:,2))>21.6,:);
 % SL= PDadditional3([3,6,7,4,1,2] , :);
-SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_TRUNK');
-[values1,pvtable]=correlationAnalysis(T,dataPosition,methodsel,SL);
+% SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_TRUNK');
+% scaleName='UPDRS';
+SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_TRUNK');
+scaleName='Total';
+[values1,pvtable,Tfeature]=correlationAnalysis(T,dataPosition,methodsel,SL,scaleName);
 
 
 %% ****************************************************************************************************
@@ -105,13 +108,16 @@ extractLabelBiobank(IDs,ClassificationType,dataDir)
 IDstrings=IDs;
 Chunkslength="24h";
 WalkingLengthLim=10;
-
-[T,fcorrALL]=...
-    extractActivityFeatures(IDstrings,dataPosition,Chunkslength,WalkingLengthLim);
+OT=5;
+[T_wrist,fcorrALL]=...
+    extractActivityFeatures(IDstrings,dataPosition,Chunkslength,WalkingLengthLim,'OutlierThreshold',OT);
 
 %% Correlation Analysis
 methodsel="Spearman";
-% methodsel="Kendall";
+ methodsel="Kendall";
 T=T(table2array(T(:,2))>21.6,:);
-SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_WRIST');
-[values1_wrist,pvtable_wrist]=correlationAnalysis(T,dataPosition,methodsel,SL);
+% SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_WRIST');
+% scaleName='UPDRS';
+SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_WRIST');
+scaleName='Total';
+[values1_wrist,pvtable_wrist,Tfeature_wrist]=correlationAnalysis(T,dataPosition,methodsel,SL,scaleName);
