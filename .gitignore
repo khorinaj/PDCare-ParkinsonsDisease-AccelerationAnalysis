@@ -42,6 +42,14 @@ PDanalysis/results/Body*.xlsx
 PDanalysis/results/Wrist*.png
 PDanalysis/results/Wrist*.mat
 PDanalysis/results/Wrist*.xlsx
+PDanalysis/results/WristKendall*
+PDanalysis/results/WristSpearman*
+PDanalysis/results/activity*.mat
+PDanalysis/results/*.m
+PDanalysis/results/Correlation*
+
+
+
 PDanalysis/results/RO15
 
 
