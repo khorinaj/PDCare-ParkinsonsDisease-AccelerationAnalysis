@@ -1,0 +1,9 @@
+# Explicitly classify Python files
+HARmodel/** linguist-language=Python
+
+# Explicitly classify MATLAB files
+Matlab_Folder/** linguist-language=MATLAB
+
+# Reduce Jupyter Notebook dominance (if you don’t want it to be the main language)
+# *.ipynb linguist-detectable=false
+
