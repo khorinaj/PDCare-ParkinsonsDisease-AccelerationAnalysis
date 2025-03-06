@@ -61,9 +61,11 @@ T=T(table2array(T(:,2))>21.6,:);
 % SL= PDadditional3([3,6,7,4,1,2] , :);
 % SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_TRUNK');
 % scaleName='UPDRS';
-SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_TRUNK');
-scaleName='Total';
-[values1,pvtable,Tfeature]=correlationAnalysis(T,dataPosition,methodsel,SL,scaleName);
+% SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_TRUNK');
+% scaleName='Total';
+SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Paper_TRUNK');
+scaleName='Paper';
+[values1,pvtable,Tfeature]=correlationAnalysis(T,dataPosition,methodsel,SL,scaleName, false);
 
 
 %% ****************************************************************************************************
@@ -114,10 +116,12 @@ OT=5;
 
 %% Correlation Analysis
 methodsel="Spearman";
- methodsel="Kendall";
+%methodsel="Kendall";
 T=T(table2array(T(:,2))>21.6,:);
 % SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','UPDRS_WRIST');
 % scaleName='UPDRS';
-SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_WRIST');
-scaleName='Total';
-[values1_wrist,pvtable_wrist,Tfeature_wrist]=correlationAnalysis(T,dataPosition,methodsel,SL,scaleName);
+% SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Other_WRIST');
+% scaleName='Total';
+SL=readtable('clinicalScales\ClinicalScales.xlsx','Sheet','Paper_WRIST');
+scaleName='Paper';
+[values1_wrist,pvtable_wrist,Tfeature_wrist]=correlationAnalysis(T_wrist,dataPosition,methodsel,SL,scaleName, false);

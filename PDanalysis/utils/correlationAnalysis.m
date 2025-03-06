@@ -1,4 +1,4 @@
-function [V,VPALL,Tcomf]=correlationAnalysis(T,dataPosition,methodsel,scales,scaleType)
+function [V,VPALL,Tcomf]=correlationAnalysis(T,dataPosition,methodsel,scales,scaleType, rejectnan)
 % correlationAnalysis - Computes the correlation between activity features and clinical scales.
 %
 % Description:
@@ -144,10 +144,12 @@ elseif dataPosition=="Wrist"
     featureName=WristfeatureName;
 end
 
+if rejectnan
 rej=any(isnan(values));
 scalesNames=scalesNames(~rej);
 values=values(:,~rej);
 pvalues=pvalues(:,~rej);
+end
 
 % Combine values and pvalues into formatted strings
 formattedStrings = arrayfun(@(v, p) sprintf('%.2f(%.3f)', v, p), values, pvalues, 'UniformOutput', false);

@@ -35,6 +35,9 @@ PDanalysis/.ipynb_checkpoints/
 # Ignore clinical scales for privacy
 PDanalysis/clinicalScales
 
+# Ignore results for privacy
+PDanalysis/results
+
 # Ignore dataProcessed* file since this will be generated
 PDanalysis/dataProcessed_Body/*.mat
 PDanalysis/dataProcessed_Wrist/*.mat
